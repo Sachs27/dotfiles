@@ -44,7 +44,7 @@
 
     Bundle 'scrooloose/nerdcommenter'
     Bundle 'scrooloose/nerdtree'
-    Bundle 'scrooloose/syntastic'
+    "Bundle 'scrooloose/syntastic'
     Bundle 'godlygeek/tabular'
     Bundle 'kien/ctrlp.vim'
     Bundle 'mbbill/undotree'
@@ -173,13 +173,14 @@
 
     set nowrap                      " Wrap long lines
     set autoindent                  " Indent at the same level of the previous line
+    set cindent
     set shiftwidth=4                " Use indents of 4 spaces
     set expandtab                   " Tabs are spaces, not tabs
     set tabstop=4                   " An indentation every four columns
     set softtabstop=4               " Let backspace delete indent
-    "set matchpairs+=<:>             " Match, to be used with %
+    set matchpairs+=<:>             " Match, to be used with %
     set pastetoggle=<F12>           " pastetoggle (sane indentation on pastes)
-    "set comments=sl:/*,mb:*,elx:*/  " auto format comment blocks
+    set comments=sl:/*,mb:*,elx:*/  " auto format comment blocks
     " Remove trailing whitespaces and ^M chars
     autocmd FileType c,cpp,java,php,javascript,python,twig,xml,yml autocmd BufWritePre <buffer> call StripTrailingWhitespace()
     autocmd BufNewFile,BufRead *.html.twig set filetype=html.twig
@@ -305,9 +306,9 @@
 " Plugins {
 
     " Syntastic {
-        let g:syntastic_cpp_gcc_args ="-I/usr/include/opencv"
+    "    let g:syntastic_cpp_gcc_args ="-I/usr/include/opencv"
 
-        let g:syntastic_c_gcc_args ="-std=c99 -I/usr/include/opencv"
+    "    let g:syntastic_c_gcc_args ="-std=c99 -I/usr/include/opencv"
     " }
 
     " UltiSnips {
@@ -366,7 +367,7 @@
 
     " NerdTree {
         map <C-e> :NERDTreeToggle<CR>:NERDTreeMirror<CR>
-        map <leader>e :NERDTreeFind<CR>
+        "map <leader>e :NERDTreeFind<CR>
         nmap <leader>nt :NERDTreeFind<CR>
 
         let NERDTreeShowBookmarks=1
