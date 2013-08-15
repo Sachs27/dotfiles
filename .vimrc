@@ -478,6 +478,7 @@
     " GVIM- (here instead of .gvimrc)
     if has('gui_running')
         set guioptions-=T           " Remove the toolbar
+        set guioptions-=m
         set guioptions-=r
         set guioptions-=l
         set lines=40 columns=90             " 40 lines of text instead of 24
