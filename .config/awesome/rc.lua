@@ -33,6 +33,7 @@ function run_once(cmd)
 end
 
 run_once("compton --config ~/.compton.conf -b")
+run_once("mpd")
 run_once("urxvtd")
 run_once("fcitx")
 --run_once("unclutter -idle 10")
@@ -141,7 +142,13 @@ end
 tags = {}
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
-    tags[s] = awful.tag({ '|1.Term', '|2.Web ', '|3.Code', 4, 5 }, s, layouts[1])
+    tags[s] = awful.tag({
+        '\239\132\160',  -- 1 term
+        '\239\130\172',  -- 2 web
+        '\239\129\132',  -- 3 code
+        '\239\132\137',  -- 4 vbox
+        '\239\133\129',  -- 5 other
+    }, s, layouts[1])
 end
 
 -- }}}
@@ -604,7 +611,7 @@ for s = 1, screen.count() do
     -- Widgets that are aligned to the upper right
     local right_layout = wibox.layout.fixed.horizontal()
     if s == 1 then right_layout:add(wibox.widget.systray()) end
-  --right_layout:add(spr)
+    right_layout:add(spr)
   --right_layout:add(arrl)
     right_layout:add(arrl_ld)
     right_layout:add(neticon)
@@ -743,7 +750,7 @@ globalkeys = awful.util.table.join(
                                      end),
 
     --[[ Music control
-    awful.key({ altkey, "Control" }, "Up", function () 
+    awful.key({ modkey, "Control" }, "Up", function () 
                                               awful.util.spawn( "mpc toggle", false ) 
                                               vicious.force({ mpdwidget } )
                                            end),
@@ -881,11 +888,11 @@ awful.rules.rules = {
           floating = true } },
 
     { rule = { class = "Gimp" },
-          properties = { tag = tags[1][4],
+          properties = { tag = tags[1][5],
           floating = true } },
 
     { rule = { class = "Inkscape" },
-          properties = { tag = tags[1][4],
+          properties = { tag = tags[1][5],
           floating = true } },
 
     { rule = { class = "Transmission-gtk" },
@@ -904,7 +911,13 @@ awful.rules.rules = {
       properties = { tag = tags[1][2] } },
 
     { rule = { class = "Gvim" },
-      properties = { tag = tags[1][3] } }
+      properties = { tag = tags[1][3] } },
+
+    { rule = { class = "Eog" },
+      properties = { floating = true } },
+
+    { rule = { class = "VirtualBox" },
+      properties = { floating = true, tag = tags[1][4] } },
 }
 
 -- }}}
