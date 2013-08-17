@@ -481,6 +481,7 @@
         set guioptions-=m
         set guioptions-=r
         set guioptions-=l
+        set guioptions-=e
         set lines=40 columns=90             " 40 lines of text instead of 24
         if has("gui_gtk2")
             set guifont=YaHei\ Consolas\ Hybrid\ 11,Source\ Code\ Pro\ 11,Andale\ Mono\ Regular\ 16,Menlo\ Regular\ 15,Consolas\ Regular\ 16,Courier\ New\ Regular\ 18
