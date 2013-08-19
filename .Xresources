@@ -29,7 +29,7 @@ urxvt*cutchars:        "`()'*<>[]{|}\""
 !urxvt*boldFont:    -xos4-terminus-bold-*-*-*-12-*-*-*-*-*-*-*
 !  - use xft for drawing fonts
 xft*dpi:          96
-urxvt*font:       xft:YaHei Consolas Hybrid
+urxvt*font:       xft:WenQuanYi Micro Hei Mono:size=11
 !  - cursor
 urxvt*cursorColor: #DCDCCC
 !  - pseudo transparency

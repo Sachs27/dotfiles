@@ -425,7 +425,6 @@ function (widget, args)
     -- plugged
     if (args[1] == '⌁') then -- Unkown
         baticon = gen_icon_str(theme.icon_plug, '#313131')
-        return baticon
     elseif (args[1] == '+') then -- Charging
         baticon = gen_icon_str(theme.icon_bat_charge, '#313131')
     elseif (args[1] == '-') then -- Discharging
@@ -463,7 +462,7 @@ function (widget, args)
     elseif (args[1] == '↯') then -- Full or Charged
         baticon = gen_icon_str(theme.icon_bat4, '#313131')
     end
-    return baticon .. '<span font="' .. theme.font .. '" rise="2000">' .. args[2] .. '% </span>'
+    return baticon .. '<span background="#313131" font="' .. theme.font .. '" rise="2000">' .. args[2] .. '% </span>'
 end, 1, 'BAT1')
 
 volumewidget = wibox.widget.textbox()
@@ -500,7 +499,9 @@ end, 1, "Master")
 net_tmpwidget = wibox.widget.textbox()
 vicious.register(net_tmpwidget, vicious.widgets.wifi, function (widget, args)
     linp = args["{linp}"]
-    if (linp <= 33) then
+    if (linp == 0) then
+        neticon = gen_icon_str('--', '#313131')
+    elseif (linp <= 33) then
         neticon = gen_icon_str(theme.icon_wifi_low, '#313131')
     elseif (linp <= 66) then
         neticon = gen_icon_str(theme.icon_wifi_middle, '#313131')
@@ -868,36 +869,37 @@ awful.rules.rules = {
                       focus = true,
                       keys = clientkeys,
                       buttons = clientbuttons,
-	                  size_hints_honor = false
+                      size_hints_honor = false
                      }
     },
 
     { rule = { type = "dialog" },
-      properties = { floating = true } },  
+      properties = { floating = true } },
 
     { rule = { class = "MPlayer" },
       properties = { floating = true } },
+
+    { rule = { class = "Vlc" },
+      properties = { floating = true , tag = tags[1][4] } },
 
     { rule = { class = "Geany" },
           properties = { tag = tags[1][2] } },
 
     { rule = { class = "Dia" },
-          properties = { tag = tags[1][4], 
-          floating = true } },
+          properties = { tag = tags[1][4], floating = true } },
 
     { rule = { class = "Gimp" },
-          properties = { tag = tags[1][5],
-          floating = true } },
+          properties = { tag = tags[1][4], floating = true } },
 
     { rule = { class = "Inkscape" },
-          properties = { tag = tags[1][5],
+          properties = { tag = tags[1][4],
           floating = true } },
 
     { rule = { class = "Transmission-gtk" },
-          properties = { tag = tags[1][5] } },
+          properties = { tag = tags[1][4] } },
 
     { rule = { class = "Torrent-search" },
-          properties = { tag = tags[1][5] } },
+          properties = { tag = tags[1][4] } },
 
     { rule = { class = "URxvt" },
       properties = { tag = tags[1][1] } },
@@ -915,7 +917,11 @@ awful.rules.rules = {
       properties = { floating = true } },
 
     { rule = { class = "VirtualBox" },
+      properties = { floating = true, tag = tags[1][5] } },
+
+    { rule = { class = "Blender" },
       properties = { floating = true, tag = tags[1][4] } },
+
 }
 
 -- }}}
