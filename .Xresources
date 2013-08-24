@@ -34,7 +34,7 @@ urxvt*font:       xft:WenQuanYi Micro Hei Mono:size=11
 urxvt*cursorColor: #DCDCCC
 !  - pseudo transparency
 urxvt*transparent:true
-urxvt*shading:    80
+urxvt*shading:    32
 !
 !  - color scheme
 urxvt.background:  #000000

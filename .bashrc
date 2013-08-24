@@ -132,13 +132,13 @@ if [ -f "${HOME}/.bash_functions" ]; then
 fi
 
 # Some example functions:
-#
+
 # a) function settitle
 # settitle () 
 # { 
 #   echo -ne "\e]2;$@\a\e]1;$@\a"; 
 # }
-# 
+
 # b) function cd_func
 # This function defines a 'cd' replacement function capable of keeping, 
 # displaying and accessing history of visited directories, up to 10 entries.
@@ -199,6 +199,7 @@ cd_func ()
 
 alias cd=cd_func
 
+# c) colorful mannul
 man() {
     env LESS_TERMCAP_mb=$(printf "\e[1;31m") \
     LESS_TERMCAP_md=$(printf "\e[1;31m") \
@@ -210,16 +211,16 @@ man() {
     man "$@"
 }
 
-# let bash more colorful
-force_color_prompt=yes
 
 export PS1='[\u@\h \W]\n\$ '
 
-export PATH=~/local/bin:$PATH
-export C_INCLUDE_PATH=~/local/include:/usr/local/include:$C_INCLUDE_PATH
+export EDITOR='vim'
+
+export PATH=~/.local/bin:$PATH
+export C_INCLUDE_PATH=~/.local/include:/usr/local/include:$C_INCLUDE_PATH
 export CPLUS_INCLUDE_PATH=$C_INCLUDE_PATH
-export LIBRARY_PATH=~/local/lib:/usr/local/lib:$LIBRARY_PATH
-export LD_LIBRARY_PATH=~/local/lib:/usr/local/lib:$LIBRARY_PATH
+export LIBRARY_PATH=~/.local/lib:/usr/local/lib:$LIBRARY_PATH
+export LD_LIBRARY_PATH=~/.local/lib:/usr/local/lib:$LIBRARY_PATH
 
 # set proxy of Goagent for app like youtube-dl
-export http_proxy=http://127.0.0.1:8087
+#export http_proxy=http://127.0.0.1:8087

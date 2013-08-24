@@ -143,8 +143,8 @@ for s = 1, screen.count() do
     -- Each screen has its own tag table.
     tags[s] = awful.tag({
         theme.icon_terminal,
-        theme.icon_chrome,
         theme.icon_edit,
+        theme.icon_chrome,
         theme.icon_laptop,
         theme.icon_dot3,
     }, s, layouts[1])
@@ -175,9 +175,8 @@ local function gen_icon_str(icon, background)
 end
 
 -- Textclock widget
-clockicon = wibox.widget.imagebox()
-clockicon:set_image(beautiful.widget_clock)
-mytextclock = awful.widget.textclock("<span font='" .. theme.font .. "' color='#DDDDFF'> %a %d %b  %H:%M</span>")
+mytextclock = wibox.widget.textbox()
+vicious.register(mytextclock, vicious.widgets.date, "<span font='" .. theme.font .. "' color='#DD0000'> %a %d %b %R</span>", 60)
 
 -- Calendar attached to the textclock
 local os = os
@@ -364,7 +363,7 @@ vicious.register(cpuwidget, vicious.widgets.cpu, cpuicon .. '<span background="#
 -- Temp widget
 tempicon = gen_icon_str(theme.icon_temperatire)
 tempwidget = wibox.widget.textbox()
-vicious.register(tempwidget, vicious.widgets.thermal, tempicon .. '<span font="' .. theme.font .. '">$1°C </span>', 9, {"coretemp.0", "core"} )
+vicious.register(tempwidget, vicious.widgets.thermal, tempicon .. '<span font="' .. theme.font .. '" rise="2000">$1°C </span>', 9, {"coretemp.0", "core"} )
 
 -- /home fs widget
 fshicon = gen_icon_str(theme.icon_hdd, '#313131')
@@ -674,7 +673,7 @@ root.buttons(awful.util.table.join(
 globalkeys = awful.util.table.join(
 
     -- Capture a screenshot
-    awful.key({ altkey }, "p", function() awful.util.spawn("screenshot",false) end),
+    awful.key({ }, "Print", function () awful.util.spawn("scrot -e 'mv $f ~/Pictures/Screenshots/ 2>/dev/null'") end),
 
     -- Move clients
     awful.key({ altkey }, "Next",  function () awful.client.moveresize( 1,  1, -2, -2) end),
@@ -863,65 +862,29 @@ root.keys(globalkeys)
 
 awful.rules.rules = {
      -- All clients will match this rule.
-     { rule = { },
-       properties = { border_width = beautiful.border_width,
-                      border_color = beautiful.border_normal,
-                      focus = true,
-                      keys = clientkeys,
-                      buttons = clientbuttons,
-                      size_hints_honor = false
-                     }
+    { rule = { },
+      properties = { border_width = beautiful.border_width,
+                     border_color = beautiful.border_normal,
+                     focus = true,
+                     keys = clientkeys,
+                     buttons = clientbuttons,
+                     size_hints_honor = false,
+                     floating = true,          -- all clinets are default floating.
+                     tag = tags[1][4],
+                   }
     },
 
-    { rule = { type = "dialog" },
-      properties = { floating = true } },
-
-    { rule = { class = "MPlayer" },
-      properties = { floating = true } },
-
-    { rule = { class = "Vlc" },
-      properties = { floating = true , tag = tags[1][4] } },
-
-    { rule = { class = "Geany" },
-          properties = { tag = tags[1][2] } },
-
-    { rule = { class = "Dia" },
-          properties = { tag = tags[1][4], floating = true } },
-
-    { rule = { class = "Gimp" },
-          properties = { tag = tags[1][4], floating = true } },
-
-    { rule = { class = "Inkscape" },
-          properties = { tag = tags[1][4],
-          floating = true } },
-
-    { rule = { class = "Transmission-gtk" },
-          properties = { tag = tags[1][4] } },
-
-    { rule = { class = "Torrent-search" },
-          properties = { tag = tags[1][4] } },
-
     { rule = { class = "URxvt" },
-      properties = { tag = tags[1][1] } },
-
-    { rule = { class = "pinentry" },
-      properties = { floating = true } },
-
-    { rule = { class = "Chromium" },
-      properties = { tag = tags[1][2] } },
+      properties = { floating = false, tag = tags[1][1] } },
 
     { rule = { class = "Gvim" },
+      properties = { floating = false, tag = tags[1][2] } },
+
+    { rule = { class = "Chromium" },
       properties = { tag = tags[1][3] } },
 
-    { rule = { class = "Eog" },
-      properties = { floating = true } },
-
     { rule = { class = "VirtualBox" },
-      properties = { floating = true, tag = tags[1][5] } },
-
-    { rule = { class = "Blender" },
-      properties = { floating = true, tag = tags[1][4] } },
-
+      properties = { tag = tags[1][5] } },
 }
 
 -- }}}
