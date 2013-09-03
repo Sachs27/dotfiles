@@ -25,7 +25,7 @@
         " On Windows, also use '.vim' instead of 'vimfiles'; this makes synchronization
         " across (heterogeneous) systems easier.
         if has('win32') || has('win64')
-          set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
+          set runtimepath=$VIM/vimfiles,$HOME/.vim,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
         endif
     " }
 
@@ -34,6 +34,9 @@
         filetype on
         filetype off
         set rtp+=~/.vim/bundle/vundle
+        if has('win32') || has('win64')
+            set rtp+=$VIM/vimfiles/bundle/vundle
+        endif
         call vundle#rc()
     " }
 
@@ -477,10 +480,14 @@
 
     " GVIM- (here instead of .gvimrc)
     if has('gui_running')
+        set guioptions-=t
         set guioptions-=T           " Remove the toolbar
         set guioptions-=m
         set guioptions-=r
+        set guioptions-=R
         set guioptions-=l
+        set guioptions-=L
+        set guioptions-=b
         set guioptions-=e
         set lines=40 columns=90             " 40 lines of text instead of 24
         if has("gui_gtk2")

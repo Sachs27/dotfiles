@@ -32,6 +32,7 @@ function run_once(cmd)
   awful.util.spawn_with_shell("pgrep -u $USER -x " .. findme .. " > /dev/null || (" .. cmd .. ")")
 end
 
+run_once("xscreensaver -nosplash")
 run_once("compton --config ~/.compton.conf -b")
 run_once("mpd")
 run_once("urxvtd")
@@ -154,7 +155,7 @@ end
 
 -- {{{ Freedesktop menu
 
-require("freedesktop/freedesktop")
+--require("freedesktop/freedesktop")
 
 -- }}}
 
@@ -671,6 +672,8 @@ root.buttons(awful.util.table.join(
 -- {{{ Key bindings
 
 globalkeys = awful.util.table.join(
+    -- Lock screen
+    awful.key({ modkey,           }, "l", function () awful.util.spawn("xscreensaver-command -lock") end),
 
     -- Capture a screenshot
     awful.key({ }, "Print", function () awful.util.spawn("scrot -e 'mv $f ~/Pictures/Screenshots/ 2>/dev/null'") end),
