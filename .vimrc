@@ -43,10 +43,11 @@
     "Bundle 'UltiSnips'
     Bundle 'tikhomirov/vim-glsl'
     Bundle 'plasticboy/vim-markdown'
+    Bundle 'chrisbra/Recover.vim'
 " }
 
 " General {
-
+    set fileencoding=utf-8
     set background=dark         " Assume a dark background
     if !has('gui')
         set term=$TERM          " Make arrow and other keys work
