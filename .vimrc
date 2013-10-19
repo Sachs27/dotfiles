@@ -48,6 +48,12 @@
 
 " General {
     set fileencoding=utf-8
+    set noeb vb t_vb=           " Close error bells
+    if has('autocmd')
+      autocmd GUIEnter * set visualbell t_vb=
+    endif
+
+    set fileencodings=utf-8
     set background=dark         " Assume a dark background
     if !has('gui')
         set term=$TERM          " Make arrow and other keys work
@@ -446,7 +452,7 @@
         elseif has("gui_mac")
             set guifont=Andale\ Mono\ Regular:h16,Menlo\ Regular:h15,Consolas\ Regular:h16,Courier\ New\ Regular:h18
         elseif has("gui_win32")
-            set guifont=Consolas:h13,Courier_New:h10
+            set guifont=Consolas:h11,Courier_New:h10
         endif
         if has('gui_macvim')
             set transparency=5      " Make the window slightly transparent
