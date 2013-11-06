@@ -67,6 +67,7 @@ man() {
 # alias
 #
 alias rm="rm -I"
+alias ec="emacsclient --alternate-editor=vim"
 
 export EDITOR="vim"
 export PATH=~/.local/bin:$PATH

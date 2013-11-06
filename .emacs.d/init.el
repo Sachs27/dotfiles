@@ -22,6 +22,13 @@
 (setq fci-rule-color "#DCDCDC")
 (global-fci-mode)
 
+;; glsl-mode
+(add-to-list 'auto-mode-alist
+             '("\\.glsl\\'" . glsl-mode)
+             '("\\.vert\\'" . glsl-mode)
+             '("\\.frag\\'" . glsl-mode)
+             '("\\.geom\\'" . glsl-mode))
+
 ;; ido-ubiquitous
 (ido-mode)
 (ido-ubiquitous)
@@ -31,21 +38,22 @@
 
 ;; org
 
-;; saveplace
-(require 'saveplace)
-(setq-default save-place t)
-(setq save-place-file "~/.emacs.d/.saved-places")
+;; powerline
+(powerline-default-theme)
+
+;; smartparens
+(require 'smartparens-config)
+(smartparens-global-mode)
+(setq sp-autoinsert-pair nil)
+(setq sp-autoescape-string-quote nil)
+(show-paren-mode)
+(setq show-paren-style 'parenthesis)
 
 ;; smex
 (smex-initialize)
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 
-;; tabbar
-(tabbar-mode)
-(global-set-key (kbd "M-p") 'tabbar-backward)
-(global-set-key (kbd "M-n") 'tabbar-forward)
- 
 ;; undo-tree
 (global-undo-tree-mode)
 ; persistent undo history
@@ -58,8 +66,25 @@
 
 
 ;;============================================================
+;; Build-in Packages
+;;============================================================
+(require 'cmake-mode)
+;;(add-to-list 'auto-mode-alist
+;;             '(("\\CMakeLists\\.txt\\'" . cmake-mode)
+;;              ("\\.cmake\\'" . cmake-mode)))
+
+(require 'saveplace)
+(setq-default save-place t)
+(setq save-place-file "~/.emacs.d/.saved-places")
+
+(require 'uniquify)
+(setq uniquify-buffer-name-style 'post-forward-angle-brackets)
+
+;;============================================================
 ;; General Setting
 ;;============================================================
+(server-start)
+
 ;; Turn off GUI stuff
 (tool-bar-mode 0)
 ;(menu-bar-mode 0)
@@ -69,6 +94,7 @@
 
 ;; font
 (set-default-font "Yahei Mono")
+(global-font-lock-mode)
 
 (line-number-mode)
 (column-number-mode)
@@ -94,16 +120,11 @@
 
 (setq default-major-mode `text-mode)
 
-(show-paren-mode)
-(setq show-paren-style 'parenthesis)
-
 (mouse-avoidance-mode 'animate)
 
 (setq frame-title-format "emacs@%b")
 
 (auto-image-file-mode)
-
-(global-font-lock-mode)
 
 (setq user-full-name "Sachs Wong")
 
