@@ -44,6 +44,7 @@
     Bundle 'tikhomirov/vim-glsl'
     Bundle 'plasticboy/vim-markdown'
     Bundle 'chrisbra/Recover.vim'
+    Bundle 'jceb/vim-orgmode'
 " }
 
 " General {
@@ -170,10 +171,10 @@
 
     " Easier moving in tabs and windows
     " The lines conflict with the default digraph mapping of <C-K>
-    map <C-J> <C-W>j<C-W>_
-    map <C-K> <C-W>k<C-W>_
-    map <C-L> <C-W>l<C-W>_
-    map <C-H> <C-W>h<C-W>_
+    "map <C-J> <C-W>j<C-W>_
+    "map <C-K> <C-W>k<C-W>_
+    "map <C-L> <C-W>l<C-W>_
+    "map <C-H> <C-W>h<C-W>_
 
     " Wrapped lines goes down/up to next row, rather than next line in file.
     nnoremap j gj
@@ -181,8 +182,8 @@
 
     " The following two lines conflict with moving to top and
     " bottom of the screen
-    map <S-H> gT
-    map <S-L> gt
+    map <C-H> gT
+    map <C-L> gt
 
     " Stupid shift key fixes
     if has("user_commands")
@@ -264,9 +265,9 @@
 " Plugins {
 
     " Syntastic {
-    "    let g:syntastic_cpp_gcc_args ="-I/usr/include/opencv"
+        "let g:syntastic_cpp_gcc_args ="-I/usr/include/opencv"
 
-    "    let g:syntastic_c_gcc_args ="-std=c99 -I/usr/include/opencv"
+        "let g:syntastic_c_gcc_args ="-std=c99"
     " }
 
     " UltiSnips {
@@ -448,7 +449,7 @@
         set guioptions-=e
         set lines=40 columns=90             " 40 lines of text instead of 24
         if has("gui_gtk2")
-            set guifont=YaHei\ Consolas\ Hybrid\ 11,Source\ Code\ Pro\ 11,Andale\ Mono\ Regular\ 16,Menlo\ Regular\ 15,Consolas\ Regular\ 16,Courier\ New\ Regular\ 18
+            set guifont=Microsoft\ YaHei\ Mono\ 11,YaHei\ Consolas\ Hybrid\ 11,Source\ Code\ Pro\ 11,Andale\ Mono\ Regular\ 16,Menlo\ Regular\ 15,Consolas\ Regular\ 16,Courier\ New\ Regular\ 18
         elseif has("gui_mac")
             set guifont=Andale\ Mono\ Regular:h16,Menlo\ Regular:h15,Consolas\ Regular:h16,Courier\ New\ Regular:h18
         elseif has("gui_win32")
