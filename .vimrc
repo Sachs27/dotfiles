@@ -32,19 +32,27 @@
     Bundle 'scrooloose/nerdcommenter'
     Bundle 'scrooloose/nerdtree'
     "Bundle 'scrooloose/syntastic'
+
     Bundle 'godlygeek/tabular'
     Bundle 'kien/ctrlp.vim'
     Bundle 'mbbill/undotree'
     Bundle 'tpope/vim-fugitive'
     "Bundle 'majutsushi/tagbar'
+
     Bundle 'chriskempson/vim-tomorrow-theme'
     "Bundle 'Lokaltog/powerline'
     Bundle 'Lokaltog/vim-powerline'
     "Bundle 'UltiSnips'
+    "
     Bundle 'tikhomirov/vim-glsl'
     Bundle 'plasticboy/vim-markdown'
+
     Bundle 'chrisbra/Recover.vim'
-    Bundle 'jceb/vim-orgmode'
+
+    Bundle 'mattn/calendar-vim'
+    Bundle 'chrisbra/NrrwRgn'
+    Bundle 'utl.vim'
+    Bundle 'hsitz/VimOrganizer'
 " }
 
 " General {
@@ -79,7 +87,7 @@
     set viewoptions=folds,options,cursor,unix,slash " Better Unix / Windows compatibility
     set virtualedit=onemore             " Allow for cursor beyond last character
     set history=1000                    " Store a ton of history (default is 20)
-    set nospell                           " Spell checking off
+    set nospell                         " Spell checking off
     set hidden                          " Allow buffer switching without saving
 
     " Setting up the directories {
@@ -263,6 +271,10 @@
 " }
 
 " Plugins {
+    " VimOrganizer {
+        au! BufRead,BufWrite,BufWritePost,BufNewFile *.org
+        au BufEnter *.org call org#SetOrgFileType()
+    " }
 
     " Syntastic {
         "let g:syntastic_cpp_gcc_args ="-I/usr/include/opencv"
@@ -329,6 +341,7 @@
         "map <leader>e :NERDTreeFind<CR>
         nmap <leader>nt :NERDTreeFind<CR>
 
+        let NERDChristmasTree=1
         let NERDTreeShowBookmarks=1
         let NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
         let NERDTreeChDirMode=0
@@ -373,9 +386,10 @@
     " ctrlp {
         let g:ctrlp_working_path_mode = 'ra'
         let g:ctrlp_custom_ignore = {
-            \ 'dir':  '\.git$\|\.hg$\|\.svn$|build$',
-            \ 'file': '\.exe$\|\.so$\|\.dll$|\.obj$' }
-
+            \ 'dir':  '\v[\/]\.(git|hg|svn)$|build$',
+            \ 'file': '\v\.(exe|so|dll|obj|lib)$',
+            \ 'link': 'SOME_BAD_SYMBOLIC_LINKS',
+        \ }
         if has('win32') || has('win64')
             let g:ctrlp_user_command = 'dir %s /-n /b /s /a-d'
         else
