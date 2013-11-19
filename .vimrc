@@ -6,11 +6,15 @@
 
     " Basics {
         set nocompatible        " Must be first line
+
+        " The default leader is '\', but many people prefer ',' as it's in a standard
+        " location.
+        let mapleader = ','
     " }
 
     " Windows Compatible {
-        " On Windows, also use '.vim' instead of 'vimfiles'; this makes synchronization
-        " across (heterogeneous) systems easier.
+        " On Windows, also use '.vim' instead of 'vimfiles';
+        " this makes synchronization across (heterogeneous) systems easier.
         if has('win32') || has('win64')
           let $HOME=$VIM
         endif
@@ -18,41 +22,208 @@
 
     " Setup Bundle Support {
         " The next three lines ensure that the ~/.vim/bundle/ system works
-        filetype on
-        filetype off
-        set rtp+=~/.vim/bundle/vundle
-        call vundle#rc()
+        set rtp+=~/.vim/bundle/neobundle.vim/
+        call neobundle#rc(expand('~/.vim/bundle/'))
     " }
 
 " }
 
 " Bundles {
-    Bundle 'gmark/vundle'
+    NeoBundleFetch 'Shougo/neobundle.vim'
 
-    Bundle 'scrooloose/nerdcommenter'
-    Bundle 'scrooloose/nerdtree'
-    "Bundle 'scrooloose/syntastic'
+    NeoBundle 'Shougo/neocomplcache.vim' " {
+        "Note: This option must set it in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
+        " Disable AutoComplPop.
+        let g:acp_enableAtStartup = 0
+        " Use neocomplcache.
+        let g:neocomplcache_enable_at_startup = 1
+        " Use smartcase.
+        let g:neocomplcache_enable_smart_case = 1
+        " Set minimum syntax keyword length.
+        let g:neocomplcache_min_syntax_length = 3
+        let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
 
-    Bundle 'godlygeek/tabular'
-    Bundle 'kien/ctrlp.vim'
-    Bundle 'mbbill/undotree'
-    Bundle 'tpope/vim-fugitive'
-    "Bundle 'majutsushi/tagbar'
+        " Enable heavy features.
+        " Use camel case completion.
+        "let g:neocomplcache_enable_camel_case_completion = 1
+        " Use underbar completion.
+        "let g:neocomplcache_enable_underbar_completion = 1
 
-    Bundle 'chriskempson/vim-tomorrow-theme'
-    "Bundle 'Lokaltog/powerline'
-    Bundle 'Lokaltog/vim-powerline'
-    "Bundle 'UltiSnips'
-    "
-    Bundle 'tikhomirov/vim-glsl'
-    Bundle 'plasticboy/vim-markdown'
+        " Define dictionary.
+        let g:neocomplcache_dictionary_filetype_lists = {
+            \ 'default' : '',
+            \ 'vimshell' : $HOME . '/.vim/.vimshell_hist',
+            \ 'scheme' : $HOME . '/.vim/.gosh_completions'
+                \ }
 
-    Bundle 'chrisbra/Recover.vim'
+        " Define keyword.
+        if !exists('g:neocomplcache_keyword_patterns')
+            let g:neocomplcache_keyword_patterns = {}
+        endif
+        let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
 
-    Bundle 'mattn/calendar-vim'
-    Bundle 'chrisbra/NrrwRgn'
-    Bundle 'utl.vim'
-    Bundle 'hsitz/VimOrganizer'
+        " Plugin key-mappings.
+        inoremap <expr><C-g>     neocomplcache#undo_completion()
+        inoremap <expr><C-l>     neocomplcache#complete_common_string()
+
+        " Recommended key-mappings.
+        " <CR>: close popup and save indent.
+        inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+        function! s:my_cr_function()
+          return neocomplcache#smart_close_popup() . "\<CR>"
+          " For no inserting <CR> key.
+          "return pumvisible() ? neocomplcache#close_popup() : "\<CR>"
+        endfunction
+        " <TAB>: completion.
+        inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+        " <C-h>, <BS>: close popup and delete backword char.
+        inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
+        inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
+        inoremap <expr><C-y>  neocomplcache#close_popup()
+        inoremap <expr><C-e>  neocomplcache#cancel_popup()
+        " Close popup by <Space>.
+        inoremap <expr><Space> pumvisible() ? neocomplcache#close_popup() : "\<Space>"
+
+        " For cursor moving in insert mode(Not recommended)
+        "inoremap <expr><Left>  neocomplcache#close_popup() . "\<Left>"
+        "inoremap <expr><Right> neocomplcache#close_popup() . "\<Right>"
+        "inoremap <expr><Up>    neocomplcache#close_popup() . "\<Up>"
+        "inoremap <expr><Down>  neocomplcache#close_popup() . "\<Down>"
+        " Or set this.
+        "let g:neocomplcache_enable_cursor_hold_i = 1
+        " Or set this.
+        "let g:neocomplcache_enable_insert_char_pre = 1
+
+        " AutoComplPop like behavior.
+        "let g:neocomplcache_enable_auto_select = 1
+
+        " Shell like behavior(not recommended).
+        "set completeopt+=longest
+        "let g:neocomplcache_enable_auto_select = 1
+        "let g:neocomplcache_disable_auto_complete = 1
+        "inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
+
+        " Enable omni completion.
+        autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+        autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+        autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+        autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+        autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+        " Enable heavy omni completion.
+        if !exists('g:neocomplcache_omni_patterns')
+          let g:neocomplcache_omni_patterns = {}
+        endif
+        let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+        let g:neocomplcache_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+        let g:neocomplcache_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+
+        " For perlomni.vim setting.
+        " https://github.com/c9s/perlomni.vim
+        let g:neocomplcache_omni_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+    " }
+
+    NeoBundle 'Shougo/unite.vim' " {
+        let g:unite_source_history_yank_enable = 1
+        call unite#filters#matcher_default#use(['matcher_fuzzy'])
+        nnoremap <leader>t :<C-u>Unite -no-split -buffer-name=files   -start-insert file_rec/async:!<cr>
+        nnoremap <leader>f :<C-u>Unite -no-split -buffer-name=files   -start-insert file<cr>
+        nnoremap <leader>r :<C-u>Unite -no-split -buffer-name=mru     -start-insert file_mru<cr>
+        nnoremap <leader>o :<C-u>Unite -no-split -buffer-name=outline -start-insert outline<cr>
+        nnoremap <leader>y :<C-u>Unite -no-split -buffer-name=yank    history/yank<cr>
+        nnoremap <leader>b :<C-u>Unite -no-split -buffer-name=buffer  buffer<cr>
+
+        " Custom mappings for the unite buffer
+        autocmd FileType unite call s:unite_settings()
+        function! s:unite_settings()
+          " Play nice with supertab
+          let b:SuperTabDisabled=1
+          " Enable navigation with control-n and control-p in insert mode
+          imap <buffer> <C-n>   <Plug>(unite_select_next_line)
+          imap <buffer> <C-p>   <Plug>(unite_select_previous_line)
+        endfunction
+    " }
+
+    NeoBundle 'Shougo/neosnippet.vim' " {
+        " Plugin key-mappings.
+        imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+        smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+        xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+        " SuperTab like snippets behavior.
+        imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+        \ "\<Plug>(neosnippet_expand_or_jump)"
+        \: pumvisible() ? "\<C-n>" : "\<TAB>"
+        smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+        \ "\<Plug>(neosnippet_expand_or_jump)"
+        \: "\<TAB>"
+
+        " For snippet_complete marker.
+        if has('conceal')
+          set conceallevel=2 concealcursor=i
+        endif
+    " }
+
+    NeoBundle 'bling/vim-airline' " {
+        let g:airline#extensions#tabline#enabled = 1
+        let g:airline#extensions#tabline#left_sep = ' '
+    " }
+
+    NeoBundle 'scrooloose/nerdcommenter'
+
+    NeoBundle 'scrooloose/nerdtree' " {
+        map <C-e> :NERDTreeToggle<CR>:NERDTreeMirror<CR>
+        "map <leader>e :NERDTreeFind<CR>
+        nmap <leader>nt :NERDTreeFind<CR>
+
+        let NERDChristmasTree=1
+        let NERDTreeShowBookmarks=1
+        let NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
+        let NERDTreeChDirMode=0
+        let NERDTreeQuitOnOpen=1
+        let NERDTreeMouseMode=2
+        let NERDTreeShowHidden=1
+        let NERDTreeKeepTreeInNewTab=1
+        let g:nerdtree_tabs_open_on_gui_startup=0
+    " }
+
+    "NeoBundle 'scrooloose/syntastic'
+
+    NeoBundle 'godlygeek/tabular' " {
+        nmap <Leader>a& :Tabularize /&<CR>
+        vmap <Leader>a& :Tabularize /&<CR>
+        nmap <Leader>a= :Tabularize /=<CR>
+        vmap <Leader>a= :Tabularize /=<CR>
+        nmap <Leader>a: :Tabularize /:<CR>
+        vmap <Leader>a: :Tabularize /:<CR>
+        nmap <Leader>a:: :Tabularize /:\zs<CR>
+        vmap <Leader>a:: :Tabularize /:\zs<CR>
+        nmap <Leader>a, :Tabularize /,<CR>
+        vmap <Leader>a, :Tabularize /,<CR>
+        nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
+        vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
+    " }
+
+    NeoBundle 'sjl/gundo.vim'
+
+    NeoBundle 'chrisbra/Recover.vim'
+
+    NeoBundle 'tpope/vim-fugitive' " {
+        nnoremap <silent> <leader>gs :Gstatus<CR>
+        nnoremap <silent> <leader>gd :Gdiff<CR>
+        nnoremap <silent> <leader>gc :Gcommit<CR>
+        nnoremap <silent> <leader>gb :Gblame<CR>
+        nnoremap <silent> <leader>gl :Glog<CR>
+        nnoremap <silent> <leader>gp :Git push<CR>
+    "}
+
+    "NeoBundle 'airblade/vim-gitgutter'
+
+    NeoBundle 'tikhomirov/vim-glsl'
+
+    NeoBundle 'plasticboy/vim-markdown'
+
+    NeoBundle 'chriskempson/vim-tomorrow-theme'
 " }
 
 " General {
@@ -173,10 +344,6 @@
 " }
 
 " Key (re)Mappings {
-    " The default leader is '\', but many people prefer ',' as it's in a standard
-    " location.
-    let mapleader = ','
-
     " Easier moving in tabs and windows
     " The lines conflict with the default digraph mapping of <C-K>
     "map <C-J> <C-W>j<C-W>_
@@ -270,186 +437,7 @@
     nmap <S-CR> i<CR><Esc>
 " }
 
-" Plugins {
-    " VimOrganizer {
-        au! BufRead,BufWrite,BufWritePost,BufNewFile *.org
-        au BufEnter *.org call org#SetOrgFileType()
-    " }
-
-    " Syntastic {
-        "let g:syntastic_cpp_gcc_args ="-I/usr/include/opencv"
-
-        "let g:syntastic_c_gcc_args ="-std=c99"
-    " }
-
-    " UltiSnips {
-    "   let g:UltiSnipsExpandTrigger = "<c-j>"
-    " }
-
-    " PowerLine {
-        "set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
-        "let g:Powerline_symbols = 'fancy'
-    " }
-
-    " PIV {
-        let g:DisableAutoPHPFolding = 0
-        let g:PIVAutoClose = 0
-    " }
-
-    " Misc {
-        let g:NERDShutUp=1
-        let b:match_ignorecase = 1
-    " }
-
-    " OmniComplete {
-        if has("autocmd") && exists("+omnifunc")
-            autocmd Filetype *
-                \if &omnifunc == "" |
-                \setlocal omnifunc=syntaxcomplete#Complete |
-                \endif
-        endif
-
-        hi Pmenu  guifg=#000000 guibg=#F8F8F8 ctermfg=black ctermbg=Lightgray
-        hi PmenuSbar  guifg=#8A95A7 guibg=#F8F8F8 gui=NONE ctermfg=darkcyan ctermbg=lightgray cterm=NONE
-        hi PmenuThumb  guifg=#F8F8F8 guibg=#8A95A7 gui=NONE ctermfg=lightgray ctermbg=darkcyan cterm=NONE
-
-        " Some convenient mappings
-        inoremap <expr> <Esc>      pumvisible() ? "\<C-e>" : "\<Esc>"
-        inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
-        inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
-        inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
-        inoremap <expr> <C-d>      pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-d>"
-        inoremap <expr> <C-u>      pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-u>"
-
-        " Automatically open and close the popup menu / preview window
-        au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
-        set completeopt=menu,longest
-    " }
-
-    " Ctags {
-        set tags=./tags;/,~/.vimtags
-    " }
-
-    " AutoCloseTag {
-        " Make it so AutoCloseTag works for xml and xhtml files as well
-        au FileType xhtml,xml ru ftplugin/html/autoclosetag.vim
-        nmap <Leader>ac <Plug>ToggleAutoCloseMappings
-    " }
-
-    " NerdTree {
-        map <C-e> :NERDTreeToggle<CR>:NERDTreeMirror<CR>
-        "map <leader>e :NERDTreeFind<CR>
-        nmap <leader>nt :NERDTreeFind<CR>
-
-        let NERDChristmasTree=1
-        let NERDTreeShowBookmarks=1
-        let NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
-        let NERDTreeChDirMode=0
-        let NERDTreeQuitOnOpen=1
-        let NERDTreeMouseMode=2
-        let NERDTreeShowHidden=1
-        let NERDTreeKeepTreeInNewTab=1
-        let g:nerdtree_tabs_open_on_gui_startup=0
-    " }
-
-    " Tabularize {
-        nmap <Leader>a& :Tabularize /&<CR>
-        vmap <Leader>a& :Tabularize /&<CR>
-        nmap <Leader>a= :Tabularize /=<CR>
-        vmap <Leader>a= :Tabularize /=<CR>
-        nmap <Leader>a: :Tabularize /:<CR>
-        vmap <Leader>a: :Tabularize /:<CR>
-        nmap <Leader>a:: :Tabularize /:\zs<CR>
-        vmap <Leader>a:: :Tabularize /:\zs<CR>
-        nmap <Leader>a, :Tabularize /,<CR>
-        vmap <Leader>a, :Tabularize /,<CR>
-        nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
-        vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
-    " }
-
-    " Session List {
-        set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize
-        nmap <leader>sl :SessionList<CR>
-        nmap <leader>ss :SessionSave<CR>
-    " }
-
-    " JSON {
-        "nmap <leader>jt <Esc>:%!python -m json.tool<CR><Esc>:set filetype=json<CR>
-    " }
-
-    " PyMode {
-        "let g:pymode_lint_checker = "pyflakes"
-        "let g:pymode_utils_whitespaces = 0
-        "let g:pymode_options = 0
-    " }
-
-    " ctrlp {
-        let g:ctrlp_working_path_mode = 'ra'
-        let g:ctrlp_custom_ignore = {
-            \ 'dir':  '\v[\/]\.(git|hg|svn)$|build$',
-            \ 'file': '\v\.(exe|so|dll|obj|lib)$',
-            \ 'link': 'SOME_BAD_SYMBOLIC_LINKS',
-        \ }
-        if has('win32') || has('win64')
-            let g:ctrlp_user_command = 'dir %s /-n /b /s /a-d'
-        else
-            let g:ctrlp_user_command = 'find %s -type f'
-        endif
-        "let g:ctrlp_user_command = {
-            "\ 'types': {
-                "\ 1: ['.git', 'cd %s && git ls-files . --cached --exclude-standard --others'],
-                "\ 2: ['.hg', 'hg --cwd %s locate -I .'],
-            "\ },
-            "\ 'fallback': 'find %s -type f'
-        "\ }
-    "}
-
-    " TagBar {
-    "   nnoremap <silent> <leader>tt :TagbarToggle<CR>
-
-    "   let g:tagbar_expand = 1
-    "   let g:tagbar_autoclose = 1
-    "   let g:tagbar_autofocus = 1
-    "}
-
-    " PythonMode {
-    " Disable if python support not present
-        if !has('python')
-            let g:pymode = 1
-        endif
-    " }
-
-    " Fugitive {
-        nnoremap <silent> <leader>gs :Gstatus<CR>
-        nnoremap <silent> <leader>gd :Gdiff<CR>
-        nnoremap <silent> <leader>gc :Gcommit<CR>
-        nnoremap <silent> <leader>gb :Gblame<CR>
-        nnoremap <silent> <leader>gl :Glog<CR>
-        nnoremap <silent> <leader>gp :Git push<CR>
-    "}
-
-    " UndoTree {
-        nnoremap <Leader>u :UndotreeToggle<CR>
-        " If undotree is opened, it is likely one wants to interact with it.
-        let g:undotree_SetFocusWhenToggle=1
-    " }
-
-    " indent_guides {
-        let g:indent_guides_auto_colors = 1
-
-        " For some colorschemes, autocolor will not work (eg: 'desert', 'ir_black')
-        "autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#212121 ctermbg=3
-        "autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#404040 ctermbg=4
-
-        let g:indent_guides_start_level = 2
-        let g:indent_guides_guide_size = 1
-        let g:indent_guides_enable_on_vim_startup = 1
-    " }
-
-" }
-
 " GUI Settings {
-
     " GVIM- (here instead of .gvimrc)
     if has('gui_running')
         set guioptions-=t
@@ -463,7 +451,7 @@
         set guioptions-=e
         set lines=40 columns=90             " 40 lines of text instead of 24
         if has("gui_gtk2")
-            set guifont=Microsoft\ YaHei\ Mono\ 11,YaHei\ Consolas\ Hybrid\ 11,Source\ Code\ Pro\ 11,Andale\ Mono\ Regular\ 16,Menlo\ Regular\ 15,Consolas\ Regular\ 16,Courier\ New\ Regular\ 18
+            set guifont=YaHei\ Mono\ 11,YaHei\ Consolas\ Hybrid\ 11,Source\ Code\ Pro\ 11,Andale\ Mono\ Regular\ 16,Menlo\ Regular\ 15,Consolas\ Regular\ 16,Courier\ New\ Regular\ 18
         elseif has("gui_mac")
             set guifont=Andale\ Mono\ Regular:h16,Menlo\ Regular:h15,Consolas\ Regular:h16,Courier\ New\ Regular:h18
         elseif has("gui_win32")
@@ -482,21 +470,10 @@
 " }
 
 " Functions {
-
-    " UnBundle {
-    function! UnBundle(arg, ...)
-      let bundle = vundle#config#init_bundle(a:arg, a:000)
-      call filter(g:bundles, 'v:val["name_spec"] != "' . a:arg . '"')
-    endfunction
-
-    com! -nargs=+         UnBundle
-    \ call UnBundle(<args>)
-    " }
-
     " Initialize directories {
     function! InitializeDirectories()
-        let parent = $HOME
-        let prefix = 'vim'
+        let parent = $HOME . '/.vim'
+        let prefix = ''
         let dir_list = {
                     \ 'backup': 'backupdir',
                     \ 'views': 'viewdir',
@@ -507,7 +484,7 @@
         endif
 
         " Specify a directory in which to place the vimbackup, vimviews, vimundo, and vimswap files/directories.
-        let common_dir = parent . '/.' . prefix
+        let common_dir = parent . '/' . prefix
 
         for [dirname, settingname] in items(dir_list)
             let directory = common_dir . dirname . '/'
