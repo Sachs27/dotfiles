@@ -126,10 +126,10 @@
     NeoBundle 'Shougo/unite.vim' " {
         let g:unite_source_history_yank_enable = 1
         call unite#filters#matcher_default#use(['matcher_fuzzy'])
-        nnoremap <leader>t :<C-u>Unite -no-split -buffer-name=files   -start-insert file_rec/async:!<cr>
-        nnoremap <leader>f :<C-u>Unite -no-split -buffer-name=files   -start-insert file<cr>
-        nnoremap <leader>r :<C-u>Unite -no-split -buffer-name=mru     -start-insert file_mru<cr>
-        nnoremap <leader>o :<C-u>Unite -no-split -buffer-name=outline -start-insert outline<cr>
+        nnoremap <leader>t :<C-u>Unite -no-split -buffer-name=files file_rec/async:!<cr>
+        nnoremap <leader>f :<C-u>Unite -no-split -buffer-name=files file<cr>
+        nnoremap <leader>r :<C-u>Unite -no-split -buffer-name=mru   file_mru<cr>
+        nnoremap <leader>o :<C-u>Unite -no-split -buffer-name=outline outline<cr>
         nnoremap <leader>y :<C-u>Unite -no-split -buffer-name=yank    history/yank<cr>
         nnoremap <leader>b :<C-u>Unite -no-split -buffer-name=buffer  buffer<cr>
 
@@ -166,7 +166,7 @@
 
     NeoBundle 'bling/vim-airline' " {
         let g:airline#extensions#tabline#enabled = 1
-        let g:airline#extensions#tabline#left_sep = ' '
+        let g:airline_powerline_fonts = 1
     " }
 
     NeoBundle 'scrooloose/nerdcommenter'
@@ -357,8 +357,9 @@
 
     " The following two lines conflict with moving to top and
     " bottom of the screen
-    map <C-H> gT
-    map <C-L> gt
+    map <C-H> :bp<cr>
+    map <C-L> :bn<cr>
+    map <C-X> :bd<cr>
 
     " Stupid shift key fixes
     if has("user_commands")
@@ -381,16 +382,16 @@
     " Code folding options
     set foldmethod=syntax
     set foldlevel=9
-    nmap <leader>f0 :set foldlevel=0<CR>
-    nmap <leader>f1 :set foldlevel=1<CR>
-    nmap <leader>f2 :set foldlevel=2<CR>
-    nmap <leader>f3 :set foldlevel=3<CR>
-    nmap <leader>f4 :set foldlevel=4<CR>
-    nmap <leader>f5 :set foldlevel=5<CR>
-    nmap <leader>f6 :set foldlevel=6<CR>
-    nmap <leader>f7 :set foldlevel=7<CR>
-    nmap <leader>f8 :set foldlevel=8<CR>
-    nmap <leader>f9 :set foldlevel=9<CR>
+    nmap <leader>0 :set foldlevel=0<CR>
+    nmap <leader>1 :set foldlevel=1<CR>
+    nmap <leader>2 :set foldlevel=2<CR>
+    nmap <leader>3 :set foldlevel=3<CR>
+    nmap <leader>4 :set foldlevel=4<CR>
+    nmap <leader>5 :set foldlevel=5<CR>
+    nmap <leader>6 :set foldlevel=6<CR>
+    nmap <leader>7 :set foldlevel=7<CR>
+    nmap <leader>8 :set foldlevel=8<CR>
+    nmap <leader>9 :set foldlevel=9<CR>
 
     " Toggle search highlighting
     nmap <silent> <leader>/ :set invhlsearch<CR>
@@ -427,7 +428,7 @@
 
     " Map <Leader>ff to display all lines with keyword under cursor
     " and ask which one to jump to
-    nmap <Leader>ff [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
+    "nmap <Leader>ff [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
 
     " Easier horizontal scrolling
     map zl zL
@@ -451,7 +452,7 @@
         set guioptions-=e
         set lines=40 columns=90             " 40 lines of text instead of 24
         if has("gui_gtk2")
-            set guifont=YaHei\ Mono\ 11,YaHei\ Consolas\ Hybrid\ 11,Source\ Code\ Pro\ 11,Andale\ Mono\ Regular\ 16,Menlo\ Regular\ 15,Consolas\ Regular\ 16,Courier\ New\ Regular\ 18
+            set guifont=Sauce\ Code\ Powerline\ 11,YaHei\ Mono\ for\ Powerline\ 11,YaHei\ Consolas\ Hybrid\ for\ Powerline\ 11,Source\ Code\ Pro\ 11,Andale\ Mono\ Regular\ 16,Menlo\ Regular\ 15,Consolas\ Regular\ 16,Courier\ New\ Regular\ 18
         elseif has("gui_mac")
             set guifont=Andale\ Mono\ Regular:h16,Menlo\ Regular:h15,Consolas\ Regular:h16,Courier\ New\ Regular:h18
         elseif has("gui_win32")
