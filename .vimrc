@@ -82,7 +82,7 @@
         inoremap <expr><C-y>  neocomplcache#close_popup()
         inoremap <expr><C-e>  neocomplcache#cancel_popup()
         " Close popup by <Space>.
-        inoremap <expr><Space> pumvisible() ? neocomplcache#close_popup() : "\<Space>"
+        "inoremap <expr><Space> pumvisible() ? neocomplcache#close_popup() : "\<Space>"
 
         " For cursor moving in insert mode(Not recommended)
         "inoremap <expr><Left>  neocomplcache#close_popup() . "\<Left>"
@@ -127,7 +127,7 @@
         let g:unite_source_history_yank_enable = 1
         call unite#filters#matcher_default#use(['matcher_fuzzy'])
         nnoremap <leader>t :<C-u>Unite -no-split -buffer-name=files file_rec/async:!<cr>
-        nnoremap <leader>f :<C-u>Unite -no-split -buffer-name=files file<cr>
+        nnoremap <leader>f :<C-u>Unite -no-split -buffer-name=files -start-insert file<cr>
         nnoremap <leader>r :<C-u>Unite -no-split -buffer-name=mru   file_mru<cr>
         nnoremap <leader>o :<C-u>Unite -no-split -buffer-name=outline outline<cr>
         nnoremap <leader>y :<C-u>Unite -no-split -buffer-name=yank    history/yank<cr>
@@ -204,7 +204,9 @@
         vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
     " }
 
-    NeoBundle 'sjl/gundo.vim'
+    NeoBundle 'sjl/gundo.vim' " {
+        nnoremap <leader>u :GundoToggle<cr>
+    " }
 
     NeoBundle 'chrisbra/Recover.vim'
 
@@ -218,6 +220,8 @@
     "}
 
     "NeoBundle 'airblade/vim-gitgutter'
+
+    NeoBundle 'terryma/vim-multiple-cursors'
 
     NeoBundle 'tikhomirov/vim-glsl'
 
@@ -287,6 +291,7 @@
     highlight clear SignColumn      " SignColumn should match background for
                                     " things like vim-gitgutter
 
+    set colorcolumn=80
     if has('cmdline_info')
         set ruler                   " Show the ruler
         set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%) " A ruler on steroids
